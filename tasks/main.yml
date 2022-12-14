@@ -1,0 +1,33 @@
+---
+# tasks file for webserver
+- name: installer le paquet PHP
+  apt:
+    name: php
+    state: latest
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: installer le paquet apache
+  apt:
+    name: apache2
+    state: latest
+    update_cache: yes
+
+- name: démarrer le service apache2
+  service:
+    name: apache2
+    enabled: yes
+    state: started
+
+- name: Deployer le fichier de config
+  template:
+    src: templates/apache2.j2
+    dest: /etc/apache2/apache2.conf
+  notify:
+    - Restart apache
+
+- name: Copier le fichier index
+  template:
+    src: templates/index.j2
+    dest: /var/www/html/index.html
+       

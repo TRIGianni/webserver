@@ -1,0 +1,4 @@
+---
+# vars file for webserver
+timeout: 400
+titre: HeH
